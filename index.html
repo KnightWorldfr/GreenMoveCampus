@@ -829,17 +829,17 @@
 
   .parking-grid {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 2px;
     max-width: 280px;
     margin: 0 auto;
   }
 
   .park-spot {
-    aspect-ratio: 1/1.5;
-    border-radius: 3px;
+    aspect-ratio: 1/1.4;
+    border-radius: 2px;
     background: white;
-    border: 1.5px solid var(--green-mid);
+    border: 1px solid var(--green-mid);
   }
 
   .park-spot.taken {
@@ -1529,11 +1529,11 @@
           </div>
           <div class="home-logo-text">Green<span>Move</span></div>
         </div>
-        <div class="avatar" onclick="showScreen('profile')">TM</div>
+        <div class="avatar" onclick="showScreen('profile')">HB</div>
       </div>
 
       <div style="padding: 0 24px 20px;">
-        <div class="greeting">Bonjour, <span>Thomas</span></div>
+        <div class="greeting">Bonjour, <span>Hugo</span></div>
         <div class="greeting-sub">Cours à 8h30 · CESI Rouen</div>
       </div>
 
@@ -1576,16 +1576,16 @@
 
           <!-- Drivers -->
           <div class="marker" style="top: 50%; left: 25%;">
-            <div class="marker-driver">JM</div>
+            <div class="marker-driver">CF</div>
           </div>
           <div class="marker" style="top: 60%; left: 55%;">
-            <div class="marker-driver">SL</div>
-          </div>
-          <div class="marker" style="top: 40%; left: 45%;">
             <div class="marker-driver">CP</div>
           </div>
+          <div class="marker" style="top: 40%; left: 45%;">
+            <div class="marker-driver">PP</div>
+          </div>
           <div class="marker" style="top: 78%; left: 60%;">
-            <div class="marker-driver">AB</div>
+            <div class="marker-driver">TL</div>
           </div>
         </div>
         <div class="map-legend">
@@ -1615,7 +1615,7 @@
         </div>
         <div class="trip-divider"></div>
         <div class="trip-info">
-          <div class="trip-driver">Julien M.</div>
+          <div class="trip-driver">Christopher F.</div>
           <div class="trip-route">Grand-Quevilly → CESI</div>
           <div class="trip-meta">
             <span class="trip-tag">⭐ 4.9</span>
@@ -1635,7 +1635,7 @@
         </div>
         <div class="trip-divider"></div>
         <div class="trip-info">
-          <div class="trip-driver">Sophie L.</div>
+          <div class="trip-driver">Clélia P.</div>
           <div class="trip-route">Petit-Quevilly → CESI</div>
           <div class="trip-meta">
             <span class="trip-tag">⭐ 5.0</span>
@@ -1655,7 +1655,7 @@
         </div>
         <div class="trip-divider"></div>
         <div class="trip-info">
-          <div class="trip-driver">Camille P.</div>
+          <div class="trip-driver">Paul P.</div>
           <div class="trip-route">Sotteville → CESI</div>
           <div class="trip-meta">
             <span class="trip-tag full">Complet</span>
@@ -1723,7 +1723,7 @@
         </div>
         <div class="trip-divider"></div>
         <div class="trip-info">
-          <div class="trip-driver">Julien M.</div>
+          <div class="trip-driver">Thomas L.</div>
           <div class="trip-route">Grand-Quevilly → CESI</div>
           <div class="trip-meta">
             <span class="trip-tag">⭐ 4.9</span>
@@ -1743,7 +1743,7 @@
         </div>
         <div class="trip-divider"></div>
         <div class="trip-info">
-          <div class="trip-driver">Sophie L.</div>
+          <div class="trip-driver">Anyr B.</div>
           <div class="trip-route">Petit-Quevilly → CESI</div>
           <div class="trip-meta">
             <span class="trip-tag">⭐ 5.0</span>
@@ -1763,7 +1763,7 @@
         </div>
         <div class="trip-divider"></div>
         <div class="trip-info">
-          <div class="trip-driver">Antoine B.</div>
+          <div class="trip-driver">Emeline C.</div>
           <div class="trip-route">Le Petit-Couronne → CESI</div>
           <div class="trip-meta">
             <span class="trip-tag">⭐ 4.7</span>
@@ -1810,7 +1810,7 @@
             <div class="stat-label">Libres</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">48</div>
+            <div class="stat-value">270</div>
             <div class="stat-label">Total</div>
           </div>
           <div class="stat-item">
@@ -1873,9 +1873,9 @@
       </div>
 
       <div class="profile-hero">
-        <div class="profile-avatar">TM</div>
-        <div class="profile-name">Thomas Martin</div>
-        <div class="profile-school">CESI Rouen · Ingé généraliste · A2</div>
+        <div class="profile-avatar">HB</div>
+        <div class="profile-name">Hugo BATTE</div>
+        <div class="profile-school">CESI Rouen · FISA Généraliste · A4</div>
       </div>
 
       <div class="profile-stats">
@@ -2141,9 +2141,9 @@
 </div>
 
 <script>
-  // Build parking grid (all taken)
+  // Build parking grid (all taken - 270 places CESI)
   const grid = document.getElementById('parkingGrid');
-  const total = 48;
+  const total = 270;
   for (let i = 0; i < total; i++) {
     const spot = document.createElement('div');
     spot.className = 'park-spot taken';
