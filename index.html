@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d3b2e">
+<title>Green Move Campus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0d3b2e;
+    --green-dark: #1a5c47;
+    --green-mid: #2d8a66;
+    --green-bright: #4ade80;
+    --green-soft: #d4f5e3;
+    --green-mist: #ecfaf2;
+    --cream: #fdfbf5;
+    --ink: #0a1f17;
+    --muted: #6b7d75;
+    --border: #e3ebe6;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+    --shadow-sm: 0 1px 2px rgba(13, 59, 46, 0.04);
+    --shadow-md: 0 4px 12px rgba(13, 59, 46, 0.08);
+    --shadow-lg: 0 12px 32px rgba(13, 59, 46, 0.12);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Manrope', -apple-system, sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: #1a1a1a;
+    font-family: var(--sans);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Phone frame - only visible on desktop preview */
+  .phone-wrapper {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #0f0f0f 100%);
+  }
+
+  .phone {
+    width: 100%;
+    height: 100%;
+    max-width: 430px;
+    max-height: 932px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+  }
+
+  @media (min-width: 500px) {
+    .phone {
+      border-radius: 48px;
+      border: 12px solid #0a0a0a;
+      box-shadow: 0 0 0 2px #2a2a2a, 0 40px 80px rgba(0,0,0,0.5);
+    }
+    .phone::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 32px;
+      background: #0a0a0a;
+      border-radius: 20px;
+      z-index: 1000;
+    }
+  }
+
+  @media (max-width: 499px) {
+    .phone-wrapper { background: var(--cream); }
+  }
+
+  /* Status bar */
+  .status-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 14px 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .status-bar.dark { color: white; }
+
+  .status-icons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  /* Screens */
+  .screen {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    padding-top: 50px;
+    padding-bottom: 100px;
+  }
+
+  .screen.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* ============ HOME SCREEN ============ */
+  .home-screen {
+    background: var(--cream);
+  }
+
+  .home-header {
+    padding: 16px 24px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .greeting {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .greeting span {
+    font-style: italic;
+    color: var(--green-mid);
+  }
+
+  .greeting-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Carbon hero card */
+  .carbon-card {
+    margin: 0 24px 24px;
+    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+    border-radius: var(--radius);
+    padding: 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carbon-card::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(74, 222, 128, 0.25), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .carbon-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .carbon-value {
+    font-family: var(--serif);
+    font-size: 44px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .carbon-unit {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.7;
+    font-family: var(--sans);
+  }
+
+  .carbon-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 12px;
+    background: rgba(74, 222, 128, 0.2);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green-bright);
+  }
+
+  /* Section title */
+  .section-title {
+    padding: 0 24px;
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .section-title small {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Map container */
+  .map-card {
+    margin: 0 24px 24px;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+  }
+
+  .map-area {
+    height: 280px;
+    background: linear-gradient(135deg, #ecfaf2 0%, #d4f5e3 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(45, 138, 102, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45, 138, 102, 0.06) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .map-roads {
+    position: absolute;
+    inset: 0;
+  }
+
+  .map-road {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .road-1 { top: 30%; left: -10%; width: 120%; height: 14px; transform: rotate(-8deg); }
+  .road-2 { top: 65%; left: -10%; width: 120%; height: 10px; transform: rotate(5deg); }
+  .road-3 { top: -10%; left: 50%; width: 12px; height: 120%; transform: rotate(15deg); }
+
+  /* Map markers */
+  .marker {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    z-index: 10;
+  }
+
+  .marker-pin {
+    width: 36px;
+    height: 36px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: var(--green-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(13, 59, 46, 0.3);
+    border: 3px solid white;
+  }
+
+  .marker-pin-cesi {
+    background: var(--green-deep);
+  }
+
+  .marker-pin svg {
+    transform: rotate(45deg);
+    width: 16px;
+    height: 16px;
+    color: white;
+  }
+
+  .marker-user {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--green-bright);
+    border: 4px solid white;
+    box-shadow: 0 2px 8px rgba(74, 222, 128, 0.5);
+    position: relative;
+  }
+
+  .marker-user::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px solid var(--green-bright);
+    opacity: 0.3;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  .marker-driver {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--green-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green-deep);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .marker-driver:hover { transform: scale(1.1); }
+
+  .marker-label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 6px;
+    background: white;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green-deep);
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .map-legend {
+    padding: 16px 20px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .legend-stats {
+    display: flex;
+    gap: 16px;
+  }
+
+  .legend-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .map-cta {
+    background: var(--green-deep);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--sans);
+    cursor: pointer;
+  }
+
+  /* Trips list */
+  .trip-card {
+    margin: 0 24px 12px;
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .trip-card:active {
+    transform: scale(0.98);
+    background: var(--green-mist);
+  }
+
+  .trip-time {
+    width: 56px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .trip-hour {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .trip-period {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .trip-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  .trip-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .trip-driver {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .trip-route {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .trip-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .trip-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: var(--green-mist);
+    color: var(--green-deep);
+  }
+
+  .trip-tag.full {
+    background: #fee;
+    color: var(--danger);
+  }
+
+  .trip-seats {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .seats-count {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--green-mid);
+  }
+
+  .seats-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ BOTTOM NAV ============ */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(253, 251, 245, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px 24px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 200;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+    background: none;
+    border: none;
+    font-family: var(--sans);
+  }
+
+  .nav-item.active {
+    color: var(--green-deep);
+  }
+
+  .nav-item svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(13, 59, 46, 0.3);
+    margin-top: -24px;
+  }
+
+  .nav-fab svg { width: 26px; height: 26px; stroke-width: 2.5; }
+
+  /* ============ SEARCH SCREEN ============ */
+  .search-screen {
+    background: var(--cream);
+  }
+
+  .screen-header {
+    padding: 16px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .screen-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .search-form {
+    margin: 0 24px 20px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 8px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+  }
+
+  .search-input-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    gap: 12px;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s;
+  }
+
+  .search-input-row:hover { background: var(--green-mist); }
+
+  .search-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .search-icon.dest { background: var(--green-deep); }
+  .search-icon.dest svg { color: white; }
+  .search-icon svg { width: 14px; height: 14px; color: var(--green-deep); }
+
+  .search-field {
+    flex: 1;
+  }
+
+  .search-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+
+  .search-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .search-divider {
+    height: 1px;
+    background: var(--border);
+    margin-left: 58px;
+  }
+
+  .search-options {
+    margin: 0 24px 20px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .search-options::-webkit-scrollbar { display: none; }
+
+  .option-chip {
+    padding: 10px 16px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .option-chip.active {
+    background: var(--green-deep);
+    color: white;
+    border-color: var(--green-deep);
+  }
+
+  .option-chip svg { width: 14px; height: 14px; }
+
+  /* ============ PARKING SCREEN ============ */
+  .parking-hero {
+    margin: 0 24px 20px;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+  }
+
+  .parking-status {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, var(--green-mist), white);
+  }
+
+  .parking-status.warning {
+    background: linear-gradient(135deg, #fff7ed, white);
+  }
+
+  .parking-status.full {
+    background: linear-gradient(135deg, #fef2f2, white);
+  }
+
+  .parking-name {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .parking-sub {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .parking-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    background: var(--green-bright);
+    color: var(--green-deep);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .parking-badge.warning {
+    background: var(--warning);
+    color: white;
+  }
+
+  .parking-badge.full {
+    background: var(--danger);
+    color: white;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0.4; }
+  }
+
+  /* Parking grid */
+  .parking-visual {
+    padding: 24px 20px;
+    background: var(--green-mist);
+  }
+
+  .parking-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .park-spot {
+    aspect-ratio: 1/1.5;
+    border-radius: 3px;
+    background: white;
+    border: 1.5px solid var(--green-mid);
+  }
+
+  .park-spot.taken {
+    background: var(--green-deep);
+    border-color: var(--green-deep);
+  }
+
+  .park-spot.your {
+    background: var(--green-bright);
+    border-color: var(--green-bright);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--green-bright);
+    animation: highlight 2s infinite;
+  }
+
+  @keyframes highlight {
+    50% { box-shadow: 0 0 0 2px white, 0 0 0 6px var(--green-bright); }
+  }
+
+  .parking-stats {
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    background: white;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--green-deep);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .alert-card {
+    margin: 0 24px 20px;
+    background: linear-gradient(135deg, #fef2f2, white);
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .alert-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--danger);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .alert-icon svg { width: 18px; height: 18px; }
+
+  .alert-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--danger);
+    margin-bottom: 2px;
+  }
+
+  .alert-text {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .alert-btn {
+    background: var(--danger);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+
+  /* ============ PROFILE SCREEN ============ */
+  .profile-screen {
+    background: var(--cream);
+  }
+
+  .profile-hero {
+    margin: 0 24px 24px;
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  .profile-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(13, 59, 46, 0.2);
+  }
+
+  .profile-name {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .profile-school {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  .profile-stats {
+    margin: 0 24px 24px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+  }
+
+  .profile-stat {
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .profile-stat:last-child { border-right: none; }
+
+  .profile-stat-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--green-deep);
+    letter-spacing: -0.02em;
+  }
+
+  .profile-stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Address card */
+  .address-section {
+    padding: 0 24px;
+  }
+
+  .address-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .address-card:active {
+    background: var(--green-mist);
+  }
+
+  .address-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--green-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .address-icon.dest {
+    background: var(--green-deep);
+  }
+
+  .address-icon.dest svg { color: white; }
+  .address-icon svg { width: 20px; height: 20px; color: var(--green-deep); }
+
+  .address-info { flex: 1; min-width: 0; }
+
+  .address-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .address-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+
+  .address-edit {
+    color: var(--muted);
+  }
+
+  /* ============ SETTINGS SCREEN ============ */
+  .settings-section {
+    margin: 0 24px 20px;
+  }
+
+  .settings-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    padding: 0 4px 10px;
+  }
+
+  .setting-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .setting-row {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .setting-row:active { background: var(--green-mist); }
+
+  .setting-row + .setting-row {
+    border-top: 1px solid var(--border);
+  }
+
+  .setting-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--green-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .setting-icon svg { width: 18px; height: 18px; color: var(--green-deep); }
+
+  .setting-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .setting-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .setting-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* Toggle */
+  .toggle {
+    width: 48px;
+    height: 28px;
+    border-radius: 100px;
+    background: #d1d5db;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+
+  .toggle.on {
+    background: var(--green-mid);
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .toggle.on::after {
+    transform: translateX(20px);
+  }
+
+  /* Highlighted setting */
+  .setting-row.highlight {
+    background: linear-gradient(135deg, var(--green-mist), white);
+    position: relative;
+  }
+
+  .setting-row.highlight::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--green-mid);
+  }
+
+  /* ============ IMPACT SCREEN ============ */
+  .impact-hero {
+    margin: 0 24px 24px;
+    background: linear-gradient(135deg, var(--green-deep), var(--green-dark));
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .impact-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(74, 222, 128, 0.2), transparent 70%);
+  }
+
+  .impact-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(74, 222, 128, 0.15), transparent 70%);
+  }
+
+  .impact-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .impact-value {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 12px 0 4px;
+    letter-spacing: -0.04em;
+    position: relative;
+  }
+
+  .impact-unit {
+    font-size: 14px;
+    opacity: 0.7;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .impact-equiv {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.85;
+    position: relative;
+  }
+
+  .impact-equiv span {
+    color: var(--green-bright);
+    font-weight: 700;
+  }
+
+  .impact-grid {
+    margin: 0 24px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .impact-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    border: 1px solid var(--border);
+  }
+
+  .impact-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--green-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .impact-card-icon svg { width: 18px; height: 18px; color: var(--green-deep); }
+
+  .impact-card-value {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .impact-card-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  /* Chart */
+  .chart-card {
+    margin: 0 24px 20px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .chart-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 100px;
+    margin-bottom: 8px;
+  }
+
+  .chart-bar {
+    flex: 1;
+    background: linear-gradient(to top, var(--green-deep), var(--green-mid));
+    border-radius: 6px 6px 0 0;
+    min-height: 20%;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .chart-bar.active {
+    background: linear-gradient(to top, var(--green-mid), var(--green-bright));
+  }
+
+  .chart-labels {
+    display: flex;
+    gap: 8px;
+  }
+
+  .chart-label {
+    flex: 1;
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* Splash screen */
+  .splash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--green-deep), var(--green-dark));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.6s;
+  }
+
+  .splash.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .splash-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--green-bright), var(--green-mid));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 12px 40px rgba(74, 222, 128, 0.4);
+  }
+
+  .splash-logo svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+  }
+
+  .splash-name {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    color: white;
+    letter-spacing: -0.02em;
+  }
+
+  .splash-name span {
+    font-style: italic;
+    color: var(--green-bright);
+  }
+
+  .splash-tag {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 6px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Logo small */
+  .home-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .home-logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-logo-icon svg {
+    width: 18px;
+    height: 18px;
+    color: white;
+  }
+
+  .home-logo-text {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .home-logo-text span {
+    font-style: italic;
+    color: var(--green-mid);
+  }
+
+  /* Save space at bottom */
+  .end-spacer { height: 20px; }
+
+  /* Animations on screen entry */
+  .screen.active .carbon-card,
+  .screen.active .map-card,
+  .screen.active .trip-card,
+  .screen.active .parking-hero,
+  .screen.active .alert-card,
+  .screen.active .profile-hero,
+  .screen.active .profile-stats,
+  .screen.active .address-card,
+  .screen.active .setting-card,
+  .screen.active .impact-hero,
+  .screen.active .impact-card,
+  .screen.active .chart-card,
+  .screen.active .search-form,
+  .screen.active .option-chip {
+    animation: slideUp 0.4s ease backwards;
+  }
+
+  .screen.active .carbon-card { animation-delay: 0.05s; }
+  .screen.active .section-title { animation: fadeIn 0.4s ease 0.1s backwards; }
+  .screen.active .map-card { animation-delay: 0.15s; }
+  .screen.active .trip-card:nth-child(2) { animation-delay: 0.2s; }
+  .screen.active .trip-card:nth-child(3) { animation-delay: 0.25s; }
+  .screen.active .trip-card:nth-child(4) { animation-delay: 0.3s; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+</style>
+</head>
+<body>
+<div class="phone-wrapper">
+  <div class="phone">
+
+    <!-- Splash -->
+    <div class="splash" id="splash">
+      <div class="splash-logo">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      </div>
+      <div class="splash-name">Green<span>Move</span></div>
+      <div class="splash-tag">CAMPUS</div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar">
+      <span>9:41</span>
+      <div class="status-icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M1 7.5h2v2H1zm4-2h2v4H5zm4-2h2v6H9zm4-2h2v8h-2z"/></svg>
+        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4.5l6 5 6-5"/><path d="M3 2.5l4 3 4-3"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1"><rect x="0.5" y="0.5" width="20" height="10" rx="2"/><rect x="2" y="2" width="17" height="7" rx="1" fill="currentColor"/><rect x="21" y="3.5" width="2" height="4" rx="0.5" fill="currentColor"/></svg>
+      </div>
+    </div>
+
+    <!-- ============ HOME SCREEN ============ -->
+    <div class="screen home-screen active" id="screen-home">
+      <div class="home-header">
+        <div class="home-logo">
+          <div class="home-logo-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          </div>
+          <div class="home-logo-text">Green<span>Move</span></div>
+        </div>
+        <div class="avatar" onclick="showScreen('profile')">TM</div>
+      </div>
+
+      <div style="padding: 0 24px 20px;">
+        <div class="greeting">Bonjour, <span>Thomas</span></div>
+        <div class="greeting-sub">Cours à 8h30 · CESI Rouen</div>
+      </div>
+
+      <!-- Carbon hero -->
+      <div class="carbon-card" onclick="showScreen('impact')">
+        <div class="carbon-label">CO₂ économisé ce mois</div>
+        <div class="carbon-value">12.4<span class="carbon-unit">kg</span></div>
+        <div class="carbon-trend">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+          +28% vs mois dernier
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="section-title">
+        Autour de toi <small>5 actifs</small>
+      </div>
+
+      <div class="map-card" onclick="showScreen('search')">
+        <div class="map-area">
+          <div class="map-grid"></div>
+          <div class="map-roads">
+            <div class="map-road road-1"></div>
+            <div class="map-road road-2"></div>
+            <div class="map-road road-3"></div>
+          </div>
+
+          <!-- CESI marker -->
+          <div class="marker" style="top: 28%; left: 70%;">
+            <div class="marker-pin marker-pin-cesi">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+            </div>
+            <div class="marker-label">CESI</div>
+          </div>
+
+          <!-- User marker -->
+          <div class="marker" style="top: 72%; left: 30%;">
+            <div class="marker-user"></div>
+          </div>
+
+          <!-- Drivers -->
+          <div class="marker" style="top: 50%; left: 25%;">
+            <div class="marker-driver">JM</div>
+          </div>
+          <div class="marker" style="top: 60%; left: 55%;">
+            <div class="marker-driver">SL</div>
+          </div>
+          <div class="marker" style="top: 40%; left: 45%;">
+            <div class="marker-driver">CP</div>
+          </div>
+          <div class="marker" style="top: 78%; left: 60%;">
+            <div class="marker-driver">AB</div>
+          </div>
+        </div>
+        <div class="map-legend">
+          <div class="legend-stats">
+            <div class="legend-stat">
+              <div class="legend-dot" style="background: var(--green-bright);"></div>
+              Toi
+            </div>
+            <div class="legend-stat">
+              <div class="legend-dot" style="background: white; border: 2px solid var(--green-mid);"></div>
+              Conducteurs
+            </div>
+          </div>
+          <button class="map-cta">Voir tout</button>
+        </div>
+      </div>
+
+      <!-- Trips -->
+      <div class="section-title">
+        Trajets pour 8h30 <small>3 dispo</small>
+      </div>
+
+      <div class="trip-card" onclick="showScreen('parking')">
+        <div class="trip-time">
+          <div class="trip-hour">07:55</div>
+          <div class="trip-period">Départ</div>
+        </div>
+        <div class="trip-divider"></div>
+        <div class="trip-info">
+          <div class="trip-driver">Julien M.</div>
+          <div class="trip-route">Grand-Quevilly → CESI</div>
+          <div class="trip-meta">
+            <span class="trip-tag">⭐ 4.9</span>
+            <span class="trip-tag">Diesel</span>
+          </div>
+        </div>
+        <div class="trip-seats">
+          <div class="seats-count">2/4</div>
+          <div class="seats-label">places</div>
+        </div>
+      </div>
+
+      <div class="trip-card">
+        <div class="trip-time">
+          <div class="trip-hour">08:05</div>
+          <div class="trip-period">Départ</div>
+        </div>
+        <div class="trip-divider"></div>
+        <div class="trip-info">
+          <div class="trip-driver">Sophie L.</div>
+          <div class="trip-route">Petit-Quevilly → CESI</div>
+          <div class="trip-meta">
+            <span class="trip-tag">⭐ 5.0</span>
+            <span class="trip-tag">Électrique</span>
+          </div>
+        </div>
+        <div class="trip-seats">
+          <div class="seats-count">3/4</div>
+          <div class="seats-label">places</div>
+        </div>
+      </div>
+
+      <div class="trip-card">
+        <div class="trip-time">
+          <div class="trip-hour">08:10</div>
+          <div class="trip-period">Départ</div>
+        </div>
+        <div class="trip-divider"></div>
+        <div class="trip-info">
+          <div class="trip-driver">Camille P.</div>
+          <div class="trip-route">Sotteville → CESI</div>
+          <div class="trip-meta">
+            <span class="trip-tag full">Complet</span>
+          </div>
+        </div>
+        <div class="trip-seats">
+          <div class="seats-count">4/4</div>
+          <div class="seats-label">places</div>
+        </div>
+      </div>
+
+      <div class="end-spacer"></div>
+    </div>
+
+    <!-- ============ SEARCH SCREEN ============ -->
+    <div class="screen search-screen" id="screen-search">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="screen-title">Rechercher</div>
+      </div>
+
+      <div class="search-form">
+        <div class="search-input-row">
+          <div class="search-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="search-field">
+            <div class="search-label">Départ</div>
+            <div class="search-value">Grand-Quevilly · Maison</div>
+          </div>
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-input-row">
+          <div class="search-icon dest">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div class="search-field">
+            <div class="search-label">Destination</div>
+            <div class="search-value">CESI Rouen</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-options">
+        <div class="option-chip active">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Aujourd'hui
+        </div>
+        <div class="option-chip">8h30</div>
+        <div class="option-chip">9h00</div>
+        <div class="option-chip">10h00</div>
+        <div class="option-chip">11h30</div>
+      </div>
+
+      <div class="section-title">
+        3 trajets disponibles <small>0,8 km</small>
+      </div>
+
+      <div class="trip-card">
+        <div class="trip-time">
+          <div class="trip-hour">07:55</div>
+          <div class="trip-period">Départ</div>
+        </div>
+        <div class="trip-divider"></div>
+        <div class="trip-info">
+          <div class="trip-driver">Julien M.</div>
+          <div class="trip-route">Grand-Quevilly → CESI</div>
+          <div class="trip-meta">
+            <span class="trip-tag">⭐ 4.9</span>
+            <span class="trip-tag">2,4 kg CO₂ évités</span>
+          </div>
+        </div>
+        <div class="trip-seats">
+          <div class="seats-count">2/4</div>
+          <div class="seats-label">places</div>
+        </div>
+      </div>
+
+      <div class="trip-card">
+        <div class="trip-time">
+          <div class="trip-hour">08:05</div>
+          <div class="trip-period">Départ</div>
+        </div>
+        <div class="trip-divider"></div>
+        <div class="trip-info">
+          <div class="trip-driver">Sophie L.</div>
+          <div class="trip-route">Petit-Quevilly → CESI</div>
+          <div class="trip-meta">
+            <span class="trip-tag">⭐ 5.0</span>
+            <span class="trip-tag">⚡ Électrique</span>
+          </div>
+        </div>
+        <div class="trip-seats">
+          <div class="seats-count">3/4</div>
+          <div class="seats-label">places</div>
+        </div>
+      </div>
+
+      <div class="trip-card">
+        <div class="trip-time">
+          <div class="trip-hour">08:20</div>
+          <div class="trip-period">Départ</div>
+        </div>
+        <div class="trip-divider"></div>
+        <div class="trip-info">
+          <div class="trip-driver">Antoine B.</div>
+          <div class="trip-route">Le Petit-Couronne → CESI</div>
+          <div class="trip-meta">
+            <span class="trip-tag">⭐ 4.7</span>
+            <span class="trip-tag">Hybride</span>
+          </div>
+        </div>
+        <div class="trip-seats">
+          <div class="seats-count">1/4</div>
+          <div class="seats-label">places</div>
+        </div>
+      </div>
+
+      <div class="end-spacer"></div>
+    </div>
+
+    <!-- ============ PARKING SCREEN ============ -->
+    <div class="screen search-screen" id="screen-parking">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="screen-title">Parking en direct</div>
+      </div>
+
+      <div class="parking-hero">
+        <div class="parking-status full">
+          <div>
+            <div class="parking-name">CESI Rouen</div>
+            <div class="parking-sub">Parking principal · 8h25</div>
+          </div>
+          <div class="parking-badge full">
+            <div class="live-dot"></div>
+            Complet
+          </div>
+        </div>
+
+        <div class="parking-visual">
+          <div class="parking-grid" id="parkingGrid"></div>
+        </div>
+
+        <div class="parking-stats">
+          <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Libres</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">48</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Occupé</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-card">
+        <div class="alert-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <div style="flex: 1;">
+          <div class="alert-title">Parking saturé</div>
+          <div class="alert-text">Tu seras redirigé vers <strong>Parking Madrillet</strong> (350m, 6 min à pied).</div>
+          <button class="alert-btn">Voir l'itinéraire →</button>
+        </div>
+      </div>
+
+      <div style="margin: 0 24px 20px;">
+        <div class="parking-hero" style="margin: 0;">
+          <div class="parking-status">
+            <div>
+              <div class="parking-name">Parking Madrillet</div>
+              <div class="parking-sub">Alternative · 350m du CESI</div>
+            </div>
+            <div class="parking-badge">
+              <div class="live-dot"></div>
+              23 libres
+            </div>
+          </div>
+          <div class="parking-stats">
+            <div class="stat-item">
+              <div class="stat-value">23</div>
+              <div class="stat-label">Libres</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">80</div>
+              <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">71%</div>
+              <div class="stat-label">Occupé</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="end-spacer"></div>
+    </div>
+
+    <!-- ============ PROFILE SCREEN ============ -->
+    <div class="screen profile-screen" id="screen-profile">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="screen-title">Mon profil</div>
+      </div>
+
+      <div class="profile-hero">
+        <div class="profile-avatar">TM</div>
+        <div class="profile-name">Thomas Martin</div>
+        <div class="profile-school">CESI Rouen · Ingé généraliste · A2</div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-value">47</div>
+          <div class="profile-stat-label">Trajets</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value">128</div>
+          <div class="profile-stat-label">kg CO₂</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value">4.9</div>
+          <div class="profile-stat-label">Note</div>
+        </div>
+      </div>
+
+      <div class="address-section">
+        <div class="settings-section-title">Mes adresses</div>
+
+        <div class="address-card">
+          <div class="address-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          </div>
+          <div class="address-info">
+            <div class="address-label">Domicile</div>
+            <div class="address-value">12 rue des Lilas, Grand-Quevilly</div>
+          </div>
+          <div class="address-edit">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+
+        <div class="address-card">
+          <div class="address-icon dest">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          </div>
+          <div class="address-info">
+            <div class="address-label">Destination régulière</div>
+            <div class="address-value">CESI Rouen · Saint-Étienne-du-Rouvray</div>
+          </div>
+          <div class="address-edit">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+
+        <div class="address-card">
+          <div class="address-icon" style="background: #f3f4f6;">
+            <svg fill="none" viewBox="0 0 24 24" stroke="#6b7d75" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </div>
+          <div class="address-info">
+            <div class="address-value" style="color: var(--muted);">Ajouter une adresse</div>
+          </div>
+        </div>
+
+        <div class="settings-section-title" style="margin-top: 20px;">Préférences trajet</div>
+
+        <div class="setting-card">
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Horaire d'arrivée</div>
+              <div class="setting-desc">8h30 · Lun, Mar, Jeu, Ven</div>
+            </div>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--muted);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Rôle préféré</div>
+              <div class="setting-desc">Passager · Recherche de covoit</div>
+            </div>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--muted);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="end-spacer"></div>
+    </div>
+
+    <!-- ============ SETTINGS SCREEN ============ -->
+    <div class="screen profile-screen" id="screen-settings">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="screen-title">Paramètres</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Fonctionnalités</div>
+        <div class="setting-card">
+          <div class="setting-row highlight" onclick="toggleParking(this)">
+            <div class="setting-icon" style="background: var(--green-bright);">
+              <svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7h4a3 3 0 010 6H9m12-1a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Parking en temps réel</div>
+              <div class="setting-desc">Voir le nombre de places dispo en direct + redirection auto</div>
+            </div>
+            <div class="toggle on" id="parkingToggle"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Notifications trajet</div>
+              <div class="setting-desc">Alertes 30 min avant ton départ</div>
+            </div>
+            <div class="toggle on" onclick="toggleSwitch(this)"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Géolocalisation</div>
+              <div class="setting-desc">Activée · Précision élevée</div>
+            </div>
+            <div class="toggle on" onclick="toggleSwitch(this)"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Mode privé</div>
+              <div class="setting-desc">Cache ta position aux autres</div>
+            </div>
+            <div class="toggle" onclick="toggleSwitch(this)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Compte</div>
+        <div class="setting-card">
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Profil</div>
+            </div>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--muted);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            </div>
+            <div class="setting-info">
+              <div class="setting-label">Vérifier mon statut étudiant</div>
+            </div>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--muted);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="end-spacer"></div>
+    </div>
+
+    <!-- ============ IMPACT SCREEN ============ -->
+    <div class="screen profile-screen" id="screen-impact">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('home')">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="screen-title">Mon impact</div>
+      </div>
+
+      <div class="impact-hero">
+        <div class="impact-label">Total CO₂ économisé</div>
+        <div class="impact-value">128<span class="impact-unit"> kg</span></div>
+        <div class="impact-equiv">
+          🌱 Équivalent à <span>6 arbres</span> plantés<br>
+          🚗 Soit <span>847 km</span> en voiture solo évités
+        </div>
+      </div>
+
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-card-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+          </div>
+          <div class="impact-card-value">47</div>
+          <div class="impact-card-label">Trajets partagés</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-card-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="impact-card-value">86€</div>
+          <div class="impact-card-label">Économisés</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-card-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="impact-card-value">847</div>
+          <div class="impact-card-label">km partagés</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-card-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+          <div class="impact-card-value">#12</div>
+          <div class="impact-card-label">Classement CESI</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Évolution sur 6 mois</div>
+        <div class="chart-bars">
+          <div class="chart-bar" style="height: 30%"></div>
+          <div class="chart-bar" style="height: 45%"></div>
+          <div class="chart-bar" style="height: 55%"></div>
+          <div class="chart-bar" style="height: 60%"></div>
+          <div class="chart-bar" style="height: 75%"></div>
+          <div class="chart-bar active" style="height: 95%"></div>
+        </div>
+        <div class="chart-labels">
+          <div class="chart-label">Nov</div>
+          <div class="chart-label">Déc</div>
+          <div class="chart-label">Jan</div>
+          <div class="chart-label">Fév</div>
+          <div class="chart-label">Mar</div>
+          <div class="chart-label" style="color: var(--green-mid);">Avr</div>
+        </div>
+      </div>
+
+      <div class="end-spacer"></div>
+    </div>
+
+    <!-- ============ BOTTOM NAV ============ -->
+    <div class="bottom-nav">
+      <button class="nav-item active" data-screen="home" onclick="showScreen('home')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="nav-label">Accueil</span>
+      </button>
+      <button class="nav-item" data-screen="search" onclick="showScreen('search')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <span class="nav-label">Trajets</span>
+      </button>
+      <button class="nav-fab" onclick="showScreen('parking')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7h4a3 3 0 010 6H9"/></svg>
+      </button>
+      <button class="nav-item" data-screen="impact" onclick="showScreen('impact')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        <span class="nav-label">Impact</span>
+      </button>
+      <button class="nav-item" data-screen="settings" onclick="showScreen('settings')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span class="nav-label">Réglages</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Build parking grid (all taken)
+  const grid = document.getElementById('parkingGrid');
+  const total = 48;
+  for (let i = 0; i < total; i++) {
+    const spot = document.createElement('div');
+    spot.className = 'park-spot taken';
+    grid.appendChild(spot);
+  }
+
+  // Splash hide
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hide');
+  }, 1500);
+
+  // Screen navigation
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+
+    // Update nav
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const navBtn = document.querySelector(`.nav-item[data-screen="${name}"]`);
+    if (navBtn) navBtn.classList.add('active');
+
+    // Status bar color
+    const statusBar = document.getElementById('statusBar');
+    statusBar.classList.remove('dark');
+
+    // Scroll to top of screen
+    document.getElementById('screen-' + name).scrollTop = 0;
+  }
+
+  // Toggle switches
+  function toggleSwitch(el) {
+    el.classList.toggle('on');
+  }
+
+  function toggleParking(row) {
+    const toggle = document.getElementById('parkingToggle');
+    toggle.classList.toggle('on');
+  }
+
+  // Prevent toggle row click from triggering twice
+  document.querySelectorAll('.toggle').forEach(t => {
+    t.addEventListener('click', e => e.stopPropagation());
+  });
+</script>
+</body>
+</html>
